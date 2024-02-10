@@ -14,17 +14,20 @@
     "allowlist": {
       "all": false,
       "fs": {
-        "all": true
-      },
-      "path": {
-        "all": true
+        "all": false,
+        "readFile": true,
+        "writeFile": true,
+        "readDir": false,
+        "copyFile": false,
+        "createDir": false,
+        "removeDir": false,
+        "removeFile": false,
+        "renameFile": false,
+        "exists": true
       },
       "dialog": {
+        "all": false,
         "open": true
-      },
-      "protocol": {
-        "asset": true,
-        "assetScope": ["**"]
       }
     },
     "bundle": {
