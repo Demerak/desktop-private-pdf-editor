@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Private Destkop Application PDF Editor 📄
+## Overview
+---
+I don't often need to edit PDFs, but when I do, it's usually for simple tasks like removing a page ✂️ or merging PDFs 📑, and I often turn to Python for these tasks. However, this isn't convenient for most, and since it's a complaint I've heard repeatedly over the years, I've decided to create a desktop application 🖥️ that can address these issues.
 
-## Getting Started
+While there are already numerous open-source projects that offer similar functionality to what I'm aiming for, most of them are web applications. I prefer downloading a desktop application to manipulate my PDFs, so that's the goal of this project.
 
-First, run the development server:
+I started exploring the Tauri framework 🛠️ in early 2024, as it gained significant traction in 2023 over Electron. I've previously used it for a project involving data from my car, and my experience was excellent, so I decided to utilize the same framework for this project. Even though JavaScript is well known not to be an efficient programming language, there are a ton of desktop applications that wouldn't exist without it. A really popular application is Discord and it was made using Electron. The main appeal of these two frameworks is the ability to create applications for major desktop platforms with a single codebase. I see the value in that and that's why I decided to use it again for this project.
+## Built with
+---
+- Tauri 
+- Next.js
+- react-pdf
+- `todo`
+## Requirements
+---
+`todo`
+## Install
+---
+`todo`
+## Contributing
+---
+`todo`
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
