@@ -1,10 +1,12 @@
 
 'use client';
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./navbar.module.css";
 import { open } from "@tauri-apps/api/dialog";
+import { MessageContext } from "../context/context";
 
-export default function navbar() {
+export default function Navbar() {
+  const { setMessage } = useContext(MessageContext) as {setMessage:  React.Dispatch<React.SetStateAction<string | undefined>> };
 
   const openFileExplorer = async () => {
     console.log("Open File Explorer");
@@ -19,12 +21,12 @@ export default function navbar() {
         },
       ],
     })
-    console.log(file);
+    setMessage(String(file)); 
   }
   
   return (
     <div className={styles.navbar}>
-      <button onClick={openFileExplorer} className={styles.button} >Open File</button>
+      <button onClick={openFileExplorer} className={styles.button}>Open File</button>
     </div>
   );
 }
