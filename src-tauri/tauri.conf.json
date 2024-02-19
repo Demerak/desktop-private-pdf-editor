@@ -23,7 +23,8 @@
         "removeDir": false,
         "removeFile": false,
         "renameFile": false,
-        "exists": true
+        "exists": true,
+        "scope": ["**"]
       },
       "dialog": {
         "all": false,

@@ -1,6 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
+  webpack: ( config ) => {
+    // config.externals.push({ canvas: 'commonjs canvas' });
+    config.externals = [...config.externals, { canvas: "canvas" }];
+    return config
+  },
+  // reactStrictMode: true,
+  // experimental: {
+  //   appDir: true,
+  //   esmExternals: "loose", // required to make Konva & react-konva work
+  // },
+  // webpack: (config) => {
+  //   config.externals = [...config.externals, { canvas: "canvas" }];  // required to make Konva & react-konva work
+  //   return config;
+  // },
 }
 
 export default nextConfig;

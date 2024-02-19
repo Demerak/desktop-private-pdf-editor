@@ -1,4 +1,4 @@
-# Private Destkop Application PDF Editor 📄
+# Private Desktop Application PDF Editor 📄
 ## Overview
 ---
 I don't often need to edit PDFs, but when I do, it's usually for simple tasks like removing a page ✂️ or merging PDFs 📑, and I often turn to Python for these tasks. However, this isn't convenient for most, and since it's a complaint I've heard repeatedly over the years, I've decided to create a desktop application 🖥️ that can address these issues.
