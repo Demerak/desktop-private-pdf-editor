@@ -2,8 +2,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { MessageContext } from "./context/context";
 import { readBinaryFile } from '@tauri-apps/api/fs';
-// import { invoke } from "@tauri-apps/api/tauri";
 import { Document, Page, pdfjs} from 'react-pdf';
+import AutoSizer from "react-virtualized-auto-sizer";  
 
 import styles from "./page.module.css";
 import 'react-pdf/dist/Page/TextLayer.css';
@@ -11,15 +11,12 @@ import 'react-pdf/dist/Page/AnnotationLayer.css';
 
 pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-// async function invokeTauriCommand(command: any) {
-//   return invoke("tauri", command);
-// }
-
 export default function Home() {
   const { message } = useContext(MessageContext) as { message: string };
   console.log("Home: " + message);
 
   const [pdfPath, setPDFPath] = useState<File | undefined>();
+  const [pageNumber, setPageNumber] = useState<number | undefined>();
 
   useEffect(() => {
     const loadPDF = async () => {
@@ -28,17 +25,26 @@ export default function Home() {
       setPDFPath(file);
       console.log(message);
     };
-
     loadPDF();
   }, [message]);
 
+  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+    setPageNumber(numPages);
+  };
+
   return (
     <main className={styles.main}>
-      <h1> PDF READER </h1>
-      <Document file={pdfPath}>
-        <Page pageNumber={1}/>
-      </Document>
-      {/* <iframe src={pdfPath} title="PDF Viewer" /> */}
+      <div className={styles.pdfView}> 
+        <AutoSizer>
+        {({ height, width }) => (
+          <Document file={pdfPath} onLoadSuccess={onDocumentLoadSuccess}>
+            {Array.from(new Array(pageNumber), (_, index) => (
+              <Page key={`page_${index + 1}`} pageNumber={index + 1} height={height} width={width} />
+            ))}
+          </Document>
+        )}
+      </AutoSizer>
+      </div>
     </main>
   );
 }
