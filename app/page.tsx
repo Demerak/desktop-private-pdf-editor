@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useContext, useEffect } from "react";
-import { MessageContext } from "./context/context";
+import { MessageContext, PageNumberContext, CurrentPageNumber } from "./context/context";
 import { readBinaryFile } from '@tauri-apps/api/fs';
 import { Document, Page, pdfjs} from 'react-pdf';
 import AutoSizer from "react-virtualized-auto-sizer";  
@@ -16,7 +16,10 @@ export default function Home() {
   console.log("Home: " + message);
 
   const [pdfPath, setPDFPath] = useState<File | undefined>();
-  const [pageNumber, setPageNumber] = useState<number | undefined>();
+  // const [pageNumber, setPageNumber] = useState<number | undefined>();
+  const { pageNumber, setPageNumber } = useContext(PageNumberContext) as unknown as { pageNumber: number | null | undefined; setPageNumber: React.Dispatch<React.SetStateAction<number | undefined>> };
+  // const { currentPage, setCurrentPage } = useContext(CurrentPageNumber) as unknown as { currentPage: number | null | undefined; setCurrentPage: React.Dispatch<React.SetStateAction<number | undefined>> };
+
 
   useEffect(() => {
     const loadPDF = async () => {

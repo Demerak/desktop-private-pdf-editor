@@ -1,21 +1,78 @@
 .navbar {
   display:flex; 
   flex-direction: row;
-  height: 4vh;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+  height: 5vh;
+  max-height: 4rem;
   width: 100%;
-  background-color: grey;
+  background-color: #fff;
+  
   z-index: 10;
+}
+
+.btn {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-family: "Cascadia Code",Consolas,Monaco,"Andale Mono","Ubuntu Mono",monospace;
+  border-radius: 8px;
+}
+
+.pageNum { 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: auto;
+  padding: 1rem;
+  padding-right: 1.5rem;
+  font-family: "Cascadia Code",Consolas,Monaco,"Andale Mono","Ubuntu Mono",monospace;
+  border-radius: 8px;
+  transition: .2s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  word-break: normal;
+  word-spacing: normal;
+}
+
+.mergeBtn {
+  height: 100%;
+  width:8vw;
+  align-items: center;
+  border: 0;
+  border-radius: 8px;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  font-family: "Cascadia Code",Consolas,Monaco,"Andale Mono","Ubuntu Mono",monospace;
+  font-size: 1rem;
+  justify-content: center;
+  line-height: 1.5rem;
+  position: relative;
+  text-align: left;
+  transition: .2s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: pre;
+  word-break: normal;
+  word-spacing: normal;
 }
 
 /* CSS */
 .button {
+  height: 100%;
   align-items: center;
-  background: #f5f5fa;
+ 
   border: 0;
   border-radius: 8px;
   box-shadow: -10px -10px 30px 0 #fff,10px 10px 30px 0 #1d0dca17;
   box-sizing: border-box;
-  color: #2a1f62;
   cursor: pointer;
   display: flex;
   font-family: "Cascadia Code",Consolas,Monaco,"Andale Mono","Ubuntu Mono",monospace;
@@ -35,14 +92,12 @@
   word-spacing: normal;
 }
 
-.button-67:hover {
+.button:hover {
   background: #f8f8ff;
   box-shadow: -15px -15px 30px 0 #fff, 15px 15px 30px 0 #1d0dca17;
 }
 
-@media (min-width: 768px) {
-  .button-67 {
-    padding: 24px;
-  }
+.btn:hover {
+  background: #f8f8ff;
+  box-shadow: -15px -15px 30px 0 #fff, 15px 15px 30px 0 #1d0dca17;
 }
-        
