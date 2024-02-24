@@ -14,7 +14,7 @@ export default function Navbar() {
 
   const openFileExplorer = async () => {
     console.log("Open File Explorer");
-    const file = await open({
+    const pdfFile = await open({
       multiple: false,
       directory: false,
       filters: [
@@ -25,12 +25,18 @@ export default function Navbar() {
         },
       ],
     })
-    setMessage(String(file)); 
+    return pdfFile;
   }
 
-  const invokeMergeFunction = () => {
+  const setSelectedPDF = async () => {
+    const pdfFile = await openFileExplorer();
+    setMessage(String(pdfFile)); 
+  }
+
+  const invokeMergeFunction = async () => {
     console.log("Merge Function");
-    invoke('merge_function', { pdf1FilePath: message, pdf2FilePath: 'file_path2', outputFilePath: 'output_file_path' }) // filler value for now
+    const newPDFToMerge = await openFileExplorer();
+    invoke('merge_function', { pdf1FilePath: message, pdf2FilePath: String(newPDFToMerge), outputFilePath: 'merged.pdf' }) // filler value for now
   }
 
   const invokeCutFunction = () => {
@@ -40,19 +46,21 @@ export default function Navbar() {
   
   return (
     <div className={styles.navbar}>
-      <button onClick={openFileExplorer} className={styles.button}>Open File</button>
+      <button onClick={setSelectedPDF} className={styles.button}>Open File</button>
       <div className={styles.pageNum}>
         <p> Page Number:  </p>
         <p> {pageNumber} </p>
       </div>
-      <div className={styles.btn}>
-        <BiMerge onClick={invokeMergeFunction} className={styles.mergeBtn}/>
+    
+      <button onClick={invokeMergeFunction} className={styles.btn}>
+        <BiMerge className={styles.mergeBtn}/>
         <span> Merge </span>
-      </div>
-      <div className={styles.btn}>
-        <BiCut onClick={invokeCutFunction} className={styles.mergeBtn}/>
+      </button>
+  
+      <button onClick={invokeCutFunction} className={styles.btn}>
+        <BiCut className={styles.mergeBtn}/>
         <span> Cut </span>
-      </div>
+      </button>
     </div>
   );
 }
