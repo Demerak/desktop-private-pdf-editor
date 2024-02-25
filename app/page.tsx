@@ -3,7 +3,8 @@ import React, { useState, useContext, useEffect } from "react";
 import { MessageContext, PageNumberContext, CurrentPageNumber } from "./context/context";
 import { readBinaryFile } from '@tauri-apps/api/fs';
 import { Document, Page, pdfjs} from 'react-pdf';
-import AutoSizer from "react-virtualized-auto-sizer";  
+import AutoSizer from "react-virtualized-auto-sizer"; 
+import { BiMerge, BiCut, BiSolidFolderOpen } from "react-icons/bi"; 
 
 import styles from "./page.module.css";
 import 'react-pdf/dist/Page/TextLayer.css';
@@ -35,12 +36,28 @@ export default function Home() {
     setPageNumber(numPages);
   };
 
+  const noData = () => {
+    return (
+      <div className={styles.noData}>
+        <h3> Please select a file by clicking the <BiSolidFolderOpen/> button </h3>
+        <div className={styles.instructions}>
+          <p> 
+            If you would like to merge a PDF, start by opening a PDF. Then, click the merge button <BiMerge /> and select the second PDF to merge.
+          </p>
+          <p>
+            If you would like to cut a PDF, start by opening a PDF. Then, ``` todo  ```
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <main className={styles.main}>
       <div className={styles.pdfView}> 
         <AutoSizer>
         {({ height, width }) => (
-          <Document file={pdfPath} onLoadSuccess={onDocumentLoadSuccess}>
+          <Document file={pdfPath} onLoadSuccess={onDocumentLoadSuccess} noData={noData}>
             {Array.from(new Array(pageNumber), (_, index) => (
               <Page key={`page_${index + 1}`} pageNumber={index + 1} height={height} width={width} />
             ))}
