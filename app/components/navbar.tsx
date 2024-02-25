@@ -5,7 +5,7 @@ import styles from "./navbar.module.css";
 import { open } from "@tauri-apps/api/dialog";
 import { invoke } from '@tauri-apps/api/tauri';
 import { MessageContext, PageNumberContext, CurrentPageNumber } from "../context/context";
-import { BiMerge, BiCut  } from "react-icons/bi";
+import { BiMerge, BiCut, BiSolidFolderOpen  } from "react-icons/bi";
 
 export default function Navbar() {
   const { message , setMessage } = useContext(MessageContext) as {message: string | undefined; setMessage:  React.Dispatch<React.SetStateAction<string | undefined>> };
@@ -46,20 +46,20 @@ export default function Navbar() {
   
   return (
     <div className={styles.navbar}>
-      <button onClick={setSelectedPDF} className={styles.button}>Open File</button>
+      <button onClick={setSelectedPDF} className={styles.navBtn} data-hover="Open File Explorer">
+        <BiSolidFolderOpen className={styles.buttonIcon} />
+      </button>
       <div className={styles.pageNum}>
         <p> Page Number:  </p>
         <p> {pageNumber} </p>
       </div>
     
-      <button onClick={invokeMergeFunction} className={styles.btn}>
-        <BiMerge className={styles.mergeBtn}/>
-        <span> Merge </span>
+      <button onClick={invokeMergeFunction} className={styles.navBtn} data-hover="Merge">
+        <BiMerge className={styles.buttonIcon}/>
       </button>
   
-      <button onClick={invokeCutFunction} className={styles.btn}>
-        <BiCut className={styles.mergeBtn}/>
-        <span> Cut </span>
+      <button onClick={invokeCutFunction} className={styles.navBtn} data-hover="Cut">
+        <BiCut className={styles.buttonIcon}/>
       </button>
     </div>
   );

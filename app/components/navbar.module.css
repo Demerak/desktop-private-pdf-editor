@@ -8,7 +8,7 @@
   max-height: 4rem;
   width: 100%;
   background-color: #fff;
-  
+  border-radius: 0% 0% 8px 8px;
   z-index: 10;
 }
 
@@ -17,7 +17,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: "Cascadia Code",Consolas,Monaco,"Andale Mono","Ubuntu Mono",monospace;
   border: 0;
   border-radius: 8px;
   box-sizing: border-box;
@@ -44,7 +43,7 @@
   width: auto;
   padding: 1rem;
   padding-right: 1.5rem;
-  font-family: "Cascadia Code",Consolas,Monaco,"Andale Mono","Ubuntu Mono",monospace;
+
   border-radius: 8px;
   transition: .2s;
   user-select: none;
@@ -54,27 +53,23 @@
   word-spacing: normal;
 }
 
-.mergeBtn {
+.buttonIcon {
   height: 100%;
   width:8vw;
   align-items: center;
   border: 0;
   border-radius: 8px;
- 
 }
 
-/* CSS */
-.button {
+.navBtn {
   height: 100%;
   align-items: center;
- 
   border: 0;
   border-radius: 8px;
   box-shadow: -10px -10px 30px 0 #fff,10px 10px 30px 0 #1d0dca17;
   box-sizing: border-box;
   cursor: pointer;
   display: flex;
-  font-family: "Cascadia Code",Consolas,Monaco,"Andale Mono","Ubuntu Mono",monospace;
   font-size: 1rem;
   justify-content: center;
   line-height: 1.5rem;
@@ -86,7 +81,7 @@
   -webkit-user-select: none;
   touch-action: manipulation;
   white-space: pre;
-  width: max-content;
+  width: 12rem;
   word-break: normal;
   word-spacing: normal;
 }
@@ -100,3 +95,41 @@
   background: #f8f8ff;
   box-shadow: -15px -15px 30px 0 #fff, 15px 15px 30px 0 #1d0dca17;
 }
+
+.navBtn::before {
+  width: 0;
+  height: 4.5px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: rgb(var(--background-end-rgb));
+  transition: all 0.35s;
+  content: "";
+  z-index: 2;
+}
+.navBtn::after {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 5px;
+  background-color: black;
+  transform: translate(0, -100%);
+  transition: all 0.35s;
+  content: attr(data-hover);
+  z-index: 1;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navBtn:hover::before {
+  width: 100%;
+} 
+  
+.navBtn:hover::after {
+  transform: translate(0, 0);
+}
+
