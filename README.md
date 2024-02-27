@@ -7,7 +7,7 @@ While there are already numerous open-source projects that offer similar functio
 
 I started exploring the Tauri framework 🛠️ in early 2024, as it gained significant traction in 2023 over Electron. I've previously used it for a project involving data from my car, and my experience was excellent, so I decided to utilize the same framework for this project. Even though JavaScript is well known not to be an efficient programming language, there are a ton of desktop applications that wouldn't exist without it. A really popular application is Discord and it was made using Electron. The main appeal of these two frameworks is the ability to create applications for major desktop platforms with a single codebase. I see the value in that and that's why I decided to use it again for this project.
 
-Here's an image of desktop applications upon opening as of February 25, 2024: 
+Here's an image of the desktop application upon opening as of February 25, 2024: 
 ![](./public/main-page.jpeg)
 
 ## Built with

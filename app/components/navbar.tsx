@@ -6,6 +6,7 @@ import { open } from "@tauri-apps/api/dialog";
 import { invoke } from '@tauri-apps/api/tauri';
 import { MessageContext, PageNumberContext, CurrentPageNumber } from "../context/context";
 import { BiMerge, BiCut, BiSolidFolderOpen  } from "react-icons/bi";
+import { MdSentimentSatisfiedAlt } from "react-icons/md";
 
 export default function Navbar() {
   const { message , setMessage } = useContext(MessageContext) as {message: string | undefined; setMessage:  React.Dispatch<React.SetStateAction<string | undefined>> };
@@ -36,7 +37,17 @@ export default function Navbar() {
   const invokeMergeFunction = async () => {
     console.log("Merge Function");
     const newPDFToMerge = await openFileExplorer();
-    invoke('merge_function', { pdf1FilePath: message, pdf2FilePath: String(newPDFToMerge), outputFilePath: 'merged.pdf' }) // filler value for now
+    const merged_file_path = invoke('merge_function', { pdf1FilePath: message, pdf2FilePath: String(newPDFToMerge), outputFilePath: 'merged.pdf' }) // filler value for now
+    merged_file_path
+      .then((file_path) => {
+        console.log('Merged File Path: ' + file_path);
+        setMessage(String(file_path));
+      })
+      .catch((error) => {
+        console.error('No Merged File Path Return: ' + error);
+    });
+
+    console.log(merged_file_path);
   }
 
   const invokeCutFunction = () => {
