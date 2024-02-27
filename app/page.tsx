@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useContext, useEffect } from "react";
-import { MessageContext, PageNumberContext, CurrentPageNumber } from "./context/context";
+import { FilePathContext, PageNumberContext, CurrentPageNumber } from "./context/context";
 import { readBinaryFile } from '@tauri-apps/api/fs';
 import { Document, Page, pdfjs} from 'react-pdf';
 import AutoSizer from "react-virtualized-auto-sizer"; 
@@ -13,8 +13,8 @@ import 'react-pdf/dist/Page/AnnotationLayer.css';
 pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
 export default function Home() {
-  const { message } = useContext(MessageContext) as { message: string };
-  console.log("Home: " + message);
+  const { filePath } = useContext(FilePathContext) as { filePath: string };
+  console.log("Home: " + filePath);
 
   const [pdfPath, setPDFPath] = useState<File | undefined>();
   // const [pageNumber, setPageNumber] = useState<number | undefined>();
@@ -24,13 +24,13 @@ export default function Home() {
 
   useEffect(() => {
     const loadPDF = async () => {
-      const pdfData = await readBinaryFile(message);
+      const pdfData = await readBinaryFile(filePath);
       const file = new File([pdfData], "application/pdf");
       setPDFPath(file);
-      console.log(message);
+      console.log(filePath);
     };
     loadPDF();
-  }, [message]);
+  }, [filePath]);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setPageNumber(numPages);
