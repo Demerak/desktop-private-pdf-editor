@@ -28,7 +28,8 @@
       },
       "dialog": {
         "all": false,
-        "open": true
+        "open": true,
+        "save": true
       }
     },
     "systemTray": {

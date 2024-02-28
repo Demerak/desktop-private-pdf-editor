@@ -6,6 +6,7 @@ use lopdf::dictionary;
 use std::collections::BTreeMap;
 use std::fs::File;
 use std::io::BufWriter;
+use std::path::PathBuf;
 
 use lopdf::content::{Content, Operation};
 use lopdf::{Bookmark, Document, Object, ObjectId, Stream};
@@ -192,20 +193,13 @@ fn merge(
 
     document.compress();
 
-    // Save the merged PDF
-    // Store file in current working directory.
-    // Note: Line is excluded when running tests
-    let mut downloads_path = dirs::home_dir().expect("Failed to get home directory");
-    downloads_path.push("Downloads");
-    downloads_path.push(output_file_path);
-    let downloads_path_str = downloads_path.to_string_lossy();
-    println!("{}", downloads_path_str);
-
-    let mut file = BufWriter::new(File::create(&downloads_path)?);
+    let path = PathBuf::from(output_file_path);
+    let path_str = path.to_string_lossy();
+    println!("{}", path_str);
+    let mut file = BufWriter::new(File::create(&path)?);
     document.save_to(&mut file)?;
-    // document.save(downloads_path_str).unwrap();
 
-    Ok(Some(downloads_path_str.to_string()))
+    Ok(Some(path_str.to_string()))
 }
 
 #[tauri::command]
@@ -213,7 +207,7 @@ fn merge_function(
     pdf1_file_path: String,
     pdf2_file_path: String,
     output_file_path: String,
-) -> std::string::String {
+) -> Result<String, String> {
     println!("Merge Function was invoked from JS!");
     println!("pdf1_file_path: {}", pdf1_file_path);
     println!("pdf2_file_path: {}", pdf2_file_path);
@@ -221,15 +215,15 @@ fn merge_function(
     match result {
         Ok(Some(result)) => {
             println!("String value: {}", result);
-            result
+            Ok("This worked!".into())
         }
         Ok(None) => {
             println!("No string value found");
-            String::new()
+            Err("No string value found".into())
         }
         Err(error) => {
             eprintln!("Error: {}", error);
-            String::new()
+            Err("Error".into())
         }
     }
 }

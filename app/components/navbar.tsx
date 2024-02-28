@@ -2,7 +2,7 @@
 'use client';
 import React, { useContext } from "react";
 import styles from "./navbar.module.css";
-import { open } from "@tauri-apps/api/dialog";
+import { open, save } from "@tauri-apps/api/dialog";
 import { invoke } from '@tauri-apps/api/tauri';
 import { FilePathContext, PageNumberContext, CurrentPageNumber } from "../context/context";
 import { BiMerge, BiCut, BiSolidFolderOpen  } from "react-icons/bi";
@@ -25,9 +25,22 @@ export default function Navbar() {
           extensions: ["pdf"],
         },
       ],
-    })
+    });
     return pdfFile;
-  }
+  };
+
+  const saveFileExplorer = async () => {
+    console.log("Save File Explorer");
+    const mergedFilePath = await save({
+      filters: [
+        {
+          name: "PDF",
+          extensions: ["pdf"],
+        },
+      ],
+    });
+    return mergedFilePath;
+  };
 
   const setSelectedPDF = async () => {
     const pdfFile = await openFileExplorer();
@@ -37,17 +50,18 @@ export default function Navbar() {
   const invokeMergeFunction = async () => {
     console.log("Merge Function");
     const newPDFToMerge = await openFileExplorer();
-    const merged_file_path = invoke('merge_function', { pdf1FilePath: filePath, pdf2FilePath: String(newPDFToMerge), outputFilePath: 'merged.pdf' }) // filler value for now
-    merged_file_path
-      .then((file_path) => {
-        console.log('Merged File Path: ' + file_path);
-        setFilePath(String(file_path));
+    const mergedFilePath = saveFileExplorer();
+    mergedFilePath
+      .then((value) => {
+        invoke('merge_function', { pdf1FilePath: filePath, pdf2FilePath: String(newPDFToMerge), outputFilePath: value })
+          .then(() => 
+            setFilePath(String(value)))
+          .catch((error) => 
+            console.error(error))
       })
       .catch((error) => {
-        console.error('No Merged File Path Return: ' + error);
-    });
-
-    console.log(merged_file_path);
+        console.error('Promise rejected with error: ' + error);
+      });
   }
 
   const invokeCutFunction = () => {
