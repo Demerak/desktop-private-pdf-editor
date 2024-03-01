@@ -5,6 +5,7 @@
   justify-content: space-between;
   gap: 4rem;
   height: 5vh;
+  min-height: 3rem;
   max-height: 4rem;
   width: 100%;
   background-color: #fff;

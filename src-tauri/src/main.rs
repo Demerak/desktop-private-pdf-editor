@@ -8,10 +8,7 @@ use std::fs::File;
 use std::io::BufWriter;
 use std::path::PathBuf;
 
-use lopdf::content::{Content, Operation};
-use lopdf::{Bookmark, Document, Object, ObjectId, Stream};
-
-// use tauri::{CustomMenuItem, Menu, MenuItem, Submenu};
+use lopdf::{Bookmark, Document, Object, ObjectId};
 
 fn merge(
     pdf1_file_path: String,
@@ -235,12 +232,6 @@ fn cut_function(pdf_file_path: String, page_to_cut: u8) {
 }
 
 fn main() {
-    // this is an option, or custom toolbar...
-    // let openfile = CustomMenuItem::new("openfile".to_string(), "Open File...");
-    // let submenu = Submenu::new("File", Menu::new().add_item(openfile));
-    // let menu = Menu::new()
-    //   .add_submenu(submenu);
-
     tauri::Builder::default()
         //.menu(menu)
         .invoke_handler(tauri::generate_handler![merge_function, cut_function])

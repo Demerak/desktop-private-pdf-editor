@@ -6,7 +6,6 @@ import { open, save } from "@tauri-apps/api/dialog";
 import { invoke } from '@tauri-apps/api/tauri';
 import { FilePathContext, PageNumberContext, CurrentPageNumber } from "../context/context";
 import { BiMerge, BiCut, BiSolidFolderOpen  } from "react-icons/bi";
-import { MdSentimentSatisfiedAlt } from "react-icons/md";
 
 export default function Navbar() {
   const { filePath , setFilePath } = useContext(FilePathContext) as {filePath: string | undefined; setFilePath:  React.Dispatch<React.SetStateAction<string | undefined>> };
