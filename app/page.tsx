@@ -14,20 +14,23 @@ pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pd
 
 export default function Home() {
   const { filePath } = useContext(FilePathContext) as { filePath: string };
-  console.log("Home: " + filePath);
 
   const [pdfPath, setPDFPath] = useState<File | undefined>();
+  const [selectedPages, setSelectedPages] = useState<number[]>([]);
   // const [pageNumber, setPageNumber] = useState<number | undefined>();
   const { pageNumber, setPageNumber } = useContext(PageNumberContext) as unknown as { pageNumber: number | null | undefined; setPageNumber: React.Dispatch<React.SetStateAction<number | undefined>> };
   // const { currentPage, setCurrentPage } = useContext(CurrentPageNumber) as unknown as { currentPage: number | null | undefined; setCurrentPage: React.Dispatch<React.SetStateAction<number | undefined>> };
 
-
   useEffect(() => {
     const loadPDF = async () => {
-      const pdfData = await readBinaryFile(filePath);
-      const file = new File([pdfData], "application/pdf");
-      setPDFPath(file);
-      console.log(filePath);
+      try {
+        const pdfData = await readBinaryFile(filePath);
+        const file = new File([pdfData], "application/pdf");
+        setPDFPath(file);
+        console.log(filePath);
+      } catch (error) {
+        console.error('Error loading PDF: ' + error);
+      }
     };
     loadPDF();
   }, [filePath]);
@@ -52,14 +55,32 @@ export default function Home() {
     );
   }
 
+  const loading = () => {
+    return (
+      <div className={styles.noData}>
+        <h3> Loading... </h3>
+      </div>
+    );
+  }
+
+  const pageClick = (pageNumber: number) => () => {
+    setSelectedPages((prevSelectedPages) => {
+      if (prevSelectedPages.includes(pageNumber)) {
+        return prevSelectedPages.filter((page) => page !== pageNumber);
+      } else {
+        return [...prevSelectedPages, pageNumber];
+      }
+    });
+  }
+
   return (
     <main className={styles.main}>
       <div className={styles.pdfView}> 
         <AutoSizer>
         {({ height, width }) => (
-          <Document file={pdfPath} onLoadSuccess={onDocumentLoadSuccess} noData={noData}>
+          <Document file={pdfPath} onLoadSuccess={onDocumentLoadSuccess} loading={loading} noData={noData}>
             {Array.from(new Array(pageNumber), (_, index) => (
-              <Page key={`page_${index + 1}`} pageNumber={index + 1} height={height} width={width} />
+              <Page key={`page_${index + 1}`} onClick={pageClick(index+1)} className={selectedPages.includes(index + 1) ? styles.selectedPage : ''}pageNumber={index + 1} height={height} width={width} />
             ))}
           </Document>
         )}
