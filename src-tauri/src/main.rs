@@ -226,7 +226,7 @@ fn merge_function(
 }
 
 #[tauri::command]
-fn cut_function(pdf_file_path: String, page_to_cut: u8) {
+fn cut_function(pdf_file_path: String, page_to_cut: Vec<u8>) {
     println!("Cut Function was invoked from JS!");
     println!("pdf_file_path: {}", pdf_file_path);
 }

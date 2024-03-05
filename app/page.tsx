@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useContext, useEffect } from "react";
-import { FilePathContext, PageNumberContext, CurrentPageNumber } from "./context/context";
+import { FilePathContext, PageNumberContext, CurrentPageNumber, CutModeContext, CutSelectedPagesContext } from "./context/context";
 import { readBinaryFile } from '@tauri-apps/api/fs';
 import { Document, Page, pdfjs} from 'react-pdf';
 import AutoSizer from "react-virtualized-auto-sizer"; 
@@ -16,10 +16,10 @@ export default function Home() {
   const { filePath } = useContext(FilePathContext) as { filePath: string };
 
   const [pdfPath, setPDFPath] = useState<File | undefined>();
-  const [selectedPages, setSelectedPages] = useState<number[]>([]);
-  // const [pageNumber, setPageNumber] = useState<number | undefined>();
   const { pageNumber, setPageNumber } = useContext(PageNumberContext) as unknown as { pageNumber: number | null | undefined; setPageNumber: React.Dispatch<React.SetStateAction<number | undefined>> };
-  // const { currentPage, setCurrentPage } = useContext(CurrentPageNumber) as unknown as { currentPage: number | null | undefined; setCurrentPage: React.Dispatch<React.SetStateAction<number | undefined>> };
+  const { cutMode } = useContext(CutModeContext) as unknown as { cutMode: boolean };
+  const { selectedPages, setSelectedPages } = useContext(CutSelectedPagesContext) as unknown as { selectedPages: number[]; setSelectedPages: React.Dispatch<React.SetStateAction<number[]>> }
+  
 
   useEffect(() => {
     const loadPDF = async () => {
@@ -55,22 +55,19 @@ export default function Home() {
     );
   }
 
-  const loading = () => {
-    return (
-      <div className={styles.noData}>
-        <h3> Loading... </h3>
-      </div>
-    );
-  }
-
   const pageClick = (pageNumber: number) => () => {
-    setSelectedPages((prevSelectedPages) => {
-      if (prevSelectedPages.includes(pageNumber)) {
-        return prevSelectedPages.filter((page) => page !== pageNumber);
-      } else {
-        return [...prevSelectedPages, pageNumber];
-      }
-    });
+    if (cutMode) {
+      setSelectedPages((prevSelectedPages) => {
+        if (prevSelectedPages.includes(pageNumber)) {
+          return prevSelectedPages.filter((page) => page !== pageNumber);
+        } else {
+          return [...prevSelectedPages, pageNumber];
+        }
+      });
+    } else {
+      // reset selected pages
+      setSelectedPages([]);
+    }
   }
 
   return (
@@ -78,9 +75,9 @@ export default function Home() {
       <div className={styles.pdfView}> 
         <AutoSizer>
         {({ height, width }) => (
-          <Document file={pdfPath} onLoadSuccess={onDocumentLoadSuccess} loading={loading} noData={noData}>
+          <Document file={pdfPath} onLoadSuccess={onDocumentLoadSuccess} noData={noData}>
             {Array.from(new Array(pageNumber), (_, index) => (
-              <Page key={`page_${index + 1}`} onClick={pageClick(index+1)} className={selectedPages.includes(index + 1) ? styles.selectedPage : ''}pageNumber={index + 1} height={height} width={width} />
+              <Page key={`page_${index + 1}`} onClick={pageClick(index+1)} className={selectedPages.includes(index + 1) && cutMode ? styles.selectedPage : ''}pageNumber={index + 1} height={height} width={width} />
             ))}
           </Document>
         )}

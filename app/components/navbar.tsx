@@ -4,12 +4,14 @@ import React, { useContext } from "react";
 import styles from "./navbar.module.css";
 import { open, save } from "@tauri-apps/api/dialog";
 import { invoke } from '@tauri-apps/api/tauri';
-import { FilePathContext, PageNumberContext, CurrentPageNumber } from "../context/context";
+import { FilePathContext, PageNumberContext, CurrentPageNumber, CutModeContext, CutSelectedPagesContext} from "../context/context";
 import { BiMerge, BiCut, BiSolidFolderOpen  } from "react-icons/bi";
 
 export default function Navbar() {
   const { filePath , setFilePath } = useContext(FilePathContext) as {filePath: string | undefined; setFilePath:  React.Dispatch<React.SetStateAction<string | undefined>> };
   const { pageNumber, setPageNumber } = useContext(PageNumberContext) as unknown as { pageNumber: number | null | undefined; setPageNumber: React.Dispatch<React.SetStateAction<number | undefined>> };
+  const { cutMode, setCutMode } = useContext(CutModeContext) as unknown as { cutMode: boolean, setCutMode: React.Dispatch<React.SetStateAction<boolean>> };
+  const { selectedPages, setSelectedPages } = useContext(CutSelectedPagesContext) as unknown as { selectedPages: number[], setSelectedPages: React.Dispatch<React.SetStateAction<number[]>> };
   // const { currentPage, setCurrentPage } = useContext(CurrentPageNumber) as unknown as { currentPage: number | null | undefined; setCurrentPage: React.Dispatch<React.SetStateAction<number | undefined>> };
 
   const openFileExplorer = async () => {
@@ -65,7 +67,15 @@ export default function Navbar() {
 
   const invokeCutFunction = () => {
     console.log("Merge Function");
-    invoke('cut_function', { pdfFilePath: filePath, pageToCut: 1}); // filler value for now 
+    setCutMode(!cutMode);
+    if (cutMode) {
+      // ready to cut 
+      console.log("Cutting PDF pages:", selectedPages.toString());
+      invoke('cut_function', { pdfFilePath: filePath, pageToCut: selectedPages}); // filler value for now 
+    } else {
+      // reset selected pages
+      setSelectedPages([]);
+    }
   }
   
   return (
