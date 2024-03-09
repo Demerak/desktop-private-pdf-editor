@@ -71,7 +71,15 @@ export default function Navbar() {
     if (cutMode) {
       // ready to cut 
       console.log("Cutting PDF pages:", selectedPages.toString());
-      invoke('cut_function', { pdfFilePath: filePath, pageToCut: selectedPages}); // filler value for now 
+      const cutFilePath = saveFileExplorer();
+      cutFilePath
+        .then((file_path) => {
+          invoke('cut_function', { pdfFilePath: filePath, pageToCut: selectedPages, outputFilePath: file_path}); // filler value for now 
+          setFilePath(String(file_path));
+        })
+        .catch((error) => {
+          console.error('Saved Cut File Path Error: ' + error);
+        });
     } else {
       // reset selected pages
       setSelectedPages([]);

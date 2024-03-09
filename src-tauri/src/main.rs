@@ -10,6 +10,8 @@ use std::path::PathBuf;
 
 use lopdf::{Bookmark, Document, Object, ObjectId};
 
+// this function is used to merge two pdfs together
+// it was taken from the lopdf crate examples
 fn merge(
     pdf1_file_path: String,
     pdf2_file_path: String,
@@ -24,7 +26,7 @@ fn merge(
     let mut max_id = 1;
     let mut pagenum = 1;
     // Collect all Documents Objects grouped by a map
-    let mut documents_pages = BTreeMap::new();
+    let mut documents_pages: BTreeMap<(u32, u16), Object> = BTreeMap::new();
     let mut documents_objects = BTreeMap::new();
     let mut document = Document::with_version("1.5");
 
@@ -199,6 +201,28 @@ fn merge(
     Ok(Some(path_str.to_string()))
 }
 
+fn cut(
+    pdf_file_path: String,
+    page_to_cut: Vec<u32>,
+    output_file_path: String,
+) -> std::io::Result<Option<String>> {
+    let mut document = Document::load(pdf_file_path).unwrap();
+
+    for &page in &page_to_cut {
+        document.delete_pages(&[page]);
+    }
+
+    let path = PathBuf::from(output_file_path);
+    let path_str = path.to_string_lossy();
+
+    println!("{}", path_str);
+
+    let mut file = BufWriter::new(File::create(&path)?);
+    document.save_to(&mut file);
+
+    Ok(None)
+}
+
 #[tauri::command]
 fn merge_function(
     pdf1_file_path: String,
@@ -226,9 +250,20 @@ fn merge_function(
 }
 
 #[tauri::command]
-fn cut_function(pdf_file_path: String, page_to_cut: Vec<u8>) {
+fn cut_function(pdf_file_path: String, page_to_cut: Vec<u32>, output_file_path: String) {
     println!("Cut Function was invoked from JS!");
     println!("pdf_file_path: {}", pdf_file_path);
+    match cut(pdf_file_path, page_to_cut, output_file_path) {
+        Ok(Some(_)) => {
+            println!("This worked!");
+        }
+        Ok(None) => {
+            println!("No string value found");
+        }
+        Err(error) => {
+            println!("Error: {}", error);
+        }
+    }
 }
 
 fn main() {
