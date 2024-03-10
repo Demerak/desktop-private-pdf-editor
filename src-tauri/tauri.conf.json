@@ -51,7 +51,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "com.tauri.private.pdf.editor.dev",
       "longDescription": "",
       "macOS": {
         "entitlements": null,

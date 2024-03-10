@@ -48,7 +48,7 @@ export default function Home() {
             If you would like to merge a PDF, start by opening a PDF. Then, click the merge button <BiMerge /> and select the second PDF to merge.
           </p>
           <p>
-            If you would like to cut a PDF, start by opening a PDF. Then, ``` todo  ```
+            If you would like to cut a PDF, start by opening a PDF. Then, click the cut button <BiCut /> and click the pages you would like to cut. The pages that are clicked will be highlighted in red. Click the cut button again to cut the selected page and save the pdf to a new file.
           </p>
         </div>
       </div>
@@ -64,10 +64,7 @@ export default function Home() {
           return [...prevSelectedPages, pageNumber];
         }
       });
-    } else {
-      // reset selected pages
-      setSelectedPages([]);
-    }
+    } 
   }
 
   return (

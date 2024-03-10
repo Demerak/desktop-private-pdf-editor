@@ -10,6 +10,11 @@ I started exploring the Tauri framework 🛠️ in early 2024, as it gained sign
 Here's an image of the desktop application upon opening as of February 25, 2024: 
 ![](./public/main-page.jpeg)
 
+## Features
+- [x] View PDFs
+- [x] Merge PDFs
+- [x] Cut PDF
+
 ## Built with
 ---
 - Tauri 
